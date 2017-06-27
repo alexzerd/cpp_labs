@@ -1,0 +1,93 @@
+
+#include <iostream>
+#include <string.h>
+#include <conio.h>
+
+
+using namespace std;
+
+int main() {
+
+	const int n = 2;
+	char mass[n][100];
+	const char razd[] = " ,?!;-.:()";
+	char *word;
+	char str[100];
+
+	cout << "Enter a string: ";
+	cin.getline(str, 100);
+
+	word = strtok(str, razd);
+
+	int i = 0;
+	while ((word != NULL) && (i < n))
+	{
+		strcpy(mass[i], word);
+		word = strtok(NULL, razd);
+
+		i++;
+	}
+	for (int i = 0; i < n; i++) {
+		cout << mass[i] << endl;
+	}
+
+	cout << endl;
+
+
+	for (int i = 0; i < n; i++) {
+
+		for (int j = i + 1; j < n; j++) {
+
+			if (strcmp(mass[i], mass[j]) > 0) {
+
+				char tmp[10] = "";
+				strcpy(tmp, mass[i]);
+				strcpy(mass[i], mass[j]);
+				strcpy(mass[j], tmp);
+			}
+
+
+		}
+
+	}
+
+	for (int i = 0; i < n; i++) {
+		cout << mass[i] << endl;
+	}
+  
+  /*
+  string str, str1 = "", razd = " ,?!;-.:()", word, s1, text[2];
+	char symbol, symbolRazd;
+	int beg = 0, end = 0, n = 0, i = 0;
+
+	getline(cin, str);
+
+	while (end != str.length()) {
+
+		while ((razd.find(str[beg]) < razd.length()) && (beg < str.length())) beg++;
+		end = beg;
+
+		while ((razd.find(str[end]) > razd.length()) && (end < str.length())) end++;
+
+
+		if (beg == str.length()) break;
+
+
+		word = str.substr(beg, end - beg);
+
+
+		text[i] = word;
+
+		beg = end;
+
+		i++;
+
+	}
+
+	for (int k = 0; k < 2; k++) {
+		cout << text[k] << endl;
+	}*/
+
+	_getch();
+	return 0;
+}
