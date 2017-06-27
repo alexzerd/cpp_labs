@@ -1,0 +1,153 @@
+#include <iostream>
+#include <string.h>
+#include <string>
+
+using namespace std;
+
+int main(){
+
+	string str, str1 = "", razd = " ,?!;-.:()", word, s1;
+	char symbol, symbolRazd;
+	int beg = 0, end = 0, n = 0;
+
+	getline(cin, str);
+
+	while(end != str.length()){
+
+		while((razd.find(str[beg])< razd.length()) && (beg < str.length())) beg++;
+		end = beg;
+		
+		while((razd.find(str[end])> razd.length()) && (end < str.length())) end++;
+		
+		/*cout<< beg << " "<< end << endl;
+		cout<< razd.find(str[end]) << endl;*/
+
+		if(beg == str.length()) break;
+
+			
+		word = str.substr(beg, end - beg);
+		
+		s1 = word;
+		
+
+		
+		unsigned int i = 0;
+		char symbol = '0';
+		int ln = s1.length();
+		int counterRep = 0, counterNotRep = 0, counter = 0;
+		
+
+		while (i < s1.length()) {
+
+			symbol = s1[i];
+
+				counter = 1;
+				unsigned int j = i+1;
+
+				while (j < s1.length()) {
+
+					if (s1[j] == symbol) {
+
+						counter++;
+						s1.erase(j, 1);
+						j = i+1;
+
+					}
+					else j++;
+				}
+
+				if(counter > 1) {s1.erase(i, 1); i--; counterRep = counter;}
+				else counterNotRep++;
+
+				
+
+			i++;
+		}
+		
+			if(counterRep > counterNotRep){
+				str1 += word;
+			}
+
+			beg = end;
+			
+	}
+	
+	cout << str1 << endl;
+
+	/*char str[80], str1[80] = "", symbol;
+                     
+	const char razd[] = " ,?!;-.:()";
+	char *word;
+
+	cout << "Enter a string: ";
+	cin.getline (str, 80);                    
+
+	word = strtok(str, razd); 
+
+	unsigned int i = 0, counter, counterRep = 0, counterNotRep = 0;
+
+	while (word != NULL){
+
+		char ourString[10];
+
+		strcpy(ourString, word);
+
+		i = 0;
+		counterRep = 0;
+		counterNotRep = 0;
+		   
+		while (i <  strlen(ourString)) {
+		
+			symbol = ourString[i];
+
+			
+
+				counter = 1;
+				int j = i + 1;
+				while ( j < strlen(ourString)) {
+
+					if (ourString[j] == symbol) {
+
+						counter++;
+						
+						
+						for (int k = j; k < strlen(ourString); k++){
+							ourString[k] = ourString[k+1];
+						}
+						j = i+1;
+					}
+					else j++;
+				}
+
+				if (counter > 1) {
+					
+					for (int k = i; k < strlen(ourString); k++){
+							ourString[k] = ourString[k+1];
+						}
+						i--;
+
+						counterRep = counter;
+				}
+
+				else{
+						counterNotRep++;
+						
+				}
+		
+			i++;
+	}
+
+		if(counterRep > counterNotRep){
+			strcat(str1, word);
+		}
+
+
+
+		word = strtok(NULL, razd);  
+
+   }
+
+	cout << str1 << endl;*/
+
+	return 0;
+}
