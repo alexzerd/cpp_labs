@@ -1,0 +1,90 @@
+#include <iostream>
+#include <string>
+#include <conio.h>
+
+using namespace std;
+
+int main() {
+
+
+	string s1;
+
+	getline(cin, s1);
+
+	int counter = 0;
+	unsigned int i = 0;
+	char symbol = '0';
+
+	while (i < s1.length()) {
+
+		symbol = s1[i];
+
+		if ((int)(symbol) != 32) {
+
+			counter = 1;
+
+			for (unsigned int j = i + 1; j < s1.length(); j++) {
+
+				if (s1[j] == symbol) {
+					s1[j] = (char)(32);
+					s1[i] = (char)(32);
+					counter++;
+				}
+
+			}
+
+			cout << symbol << " occurs " << counter << " times" << endl;
+
+		}
+
+		i++;
+	}
+
+	cout << s1 << endl;
+	
+	
+	
+	
+	
+	/* const int st_len = 10;
+
+	char ourString[st_len];
+
+	cin.getline(ourString, 10);
+	                                   
+
+	int i = 0, counter = 0;
+	char symbol = '0';
+
+	while (i < strlen(ourString)) {
+		
+			symbol = ourString[i];
+
+			if ((int)(symbol) != 32) {
+
+				counter = 1;
+
+				for (int j = i + 1; j < strlen(ourString); j++) {
+
+					if (ourString[j] == symbol) {
+						ourString[j] = (char)(32);
+						ourString[i] = (char)(32);
+						counter++;
+					}
+
+				}
+
+				cout << symbol << " occurs " << counter << " times" << endl;
+		
+			}
+
+			i++;
+	}
+
+	cout << ourString << endl;   */
+
+
+
+	_getch();
+	return 0;
+}
