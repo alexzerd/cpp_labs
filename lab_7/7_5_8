@@ -1,0 +1,144 @@
+#include <iostream>
+using namespace std;
+
+struct TREE
+{
+	int  d;
+	TREE *left;
+	TREE *rigth;
+};
+
+void    first (TREE *&,int );
+TREE*   search (TREE *, int );
+void    add (TREE *&, int );
+void    print_tree (TREE * );
+void    print_tree_level (TREE *, int , int&);
+void    del_tree  (TREE *&top);
+void    copy_tree (TREE * top, TREE *&top1);
+
+
+int main()
+{
+	int b[ ] = {20, 10, 8, 12, 30, 25, 34, 22, 44, 77, 88, 99, 11, 5, 100, 101, 102};
+	TREE *top=NULL;
+
+	for (int i = 0; i < 17; i++)
+		add (top, b[i]);
+
+	cout<<" tree 1"<<endl;
+	print_tree (top);
+	cout<< endl<<endl;
+
+	int numOfL = 0;
+	print_tree_level(top,0, numOfL);
+
+	cout<<endl;
+	cout<<numOfL<<endl;
+
+	return 0;
+}
+
+
+TREE* search(TREE *top, int d)
+{
+	TREE *pv = top, *ppv=top;
+	while (pv)
+	{	ppv = pv;
+		if (d < pv -> d)
+           pv = pv -> left;
+		else
+           pv = pv -> rigth;
+	}
+	return ppv;
+}
+
+
+
+void find(TREE *top, TREE *&p, int d)
+{
+	if (top)
+    	{
+		p = top;
+		if (d < top -> d )
+           find(top -> left, p, d);
+		else
+           find(top -> rigth, p, d);
+	}
+	else  p = NULL;
+}
+
+void add (TREE *&top, int d)
+ {
+	if (!top)
+	{
+     	top = new TREE;
+	    top -> d = d;
+	    top -> left = top -> rigth = NULL;
+	}
+	else
+	{
+	TREE *ppv,*pnew = new TREE;
+	pnew -> d = d;
+	pnew -> left= NULL;
+	pnew -> rigth = NULL;
+	ppv = search(top, d);
+	//  find(top, ppv,d);
+	if (d < ppv -> d)
+      ppv -> left = pnew;
+
+	else
+      ppv -> rigth = pnew;
+
+	}
+}
+
+
+void print_tree (TREE * top)
+{
+	if (top)
+	{	print_tree (top -> left);
+		cout << top -> d << "  ";
+		print_tree(top -> rigth);
+	}
+}
+
+
+void print_tree_level(TREE * top, int level, int &numOfL)
+{
+	if (top)
+	{
+	    numOfL = level > numOfL ? level : numOfL;
+	    print_tree_level (top -> left, level + 1, numOfL);
+
+		for (int i = 0; i < level; i++)
+            cout <<"    ";
+		cout << top ->d <<endl;
+		 numOfL = level > numOfL ? level : numOfL;
+		print_tree_level(top -> rigth, level + 1, numOfL);
+
+	}
+
+}
+
+
+void del_tree (TREE *&top)
+{
+	if (top)
+	{
+		del_tree (top -> left);
+		del_tree(top -> rigth);
+		delete top;
+		top = NULL;
+	}
+}
+
+void copy_tree (TREE * top1, TREE * &top2)
+{
+	if (top1)
+	{
+	 add(top2,top1->d);
+	 copy_tree (top1 -> left,top2);
+	copy_tree(top1 -> rigth,top2);
+	}
+}
+
