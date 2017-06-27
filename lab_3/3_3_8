@@ -1,0 +1,100 @@
+#include <iostream>
+#include <iomanip>
+#include <conio.h>
+
+
+using namespace std;
+
+int main() {
+
+	const int N=5, n = N-1;
+	int matrix[N][N],
+		direction = 2,
+		i =N / 2,  j = N / 2,           //координаты центра
+		min_i = i, max_i = i,  
+		min_j = j, max_j = j;  
+
+		
+	for (int a = 0; a <= N*N; a++) {
+		
+		matrix[i][j] = a;
+
+		switch (direction) {
+			
+		
+
+		case 0:                       // движение влево
+
+			j -= 1;
+
+			if (j < min_j) {
+
+				direction = 3;
+				min_j = j;
+
+			}
+
+			break;
+
+		case  1:                      //движение вверх
+
+			i -= 1;
+
+			if (i < min_i) {
+			
+				direction = 0;
+				min_i = i;
+			
+			}
+
+			break;
+
+		case 2:                      //движение вправо
+
+			j += 1;
+
+			if (j > max_j) {
+
+				direction = 1;
+				max_j = j;
+
+			}
+
+			break;
+		
+
+		case 3:                        // движение вниз
+			
+			i += 1;
+
+			if (i > max_i) {
+
+				direction = 2;
+				max_i = i;
+
+			}
+
+			break;
+
+		}
+	
+	
+	
+	}
+
+	for (int k = 0; k <= n; k++) {
+		
+		cout << endl;
+
+		for (int l = 0; l <= n; l++) {
+
+			cout << setw(3) << matrix[k][l];
+
+		}
+	}
+	
+	_getch();
+
+	return 0;
+
+}
