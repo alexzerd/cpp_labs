@@ -1,0 +1,276 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+
+using namespace std;
+
+/*string moreK(int number, int kNumber){
+    int arr[10] = {0};
+    int nModified, i;
+    string s1 = "True", s2 = "False";
+    bool mor = false;
+
+    nModified = number;
+
+    while (nModified){
+        i = nModified%10;
+        arr[i]++;
+        nModified /= 10;
+    }
+
+    for(int j = 0; j < 10; j++){
+        if(arr[j] > kNumber) {
+            mor = true;
+            break;
+        }
+    }
+    if(mor == true){
+        return s1;
+    }
+    else return s2;
+
+}
+
+string isUp(double number, int nNumber){
+
+    string s1 = "True", s2 = "False";
+    int e = 1;
+    for (int i = 0; i < nNumber; ++i) e *= 10;
+    int b = (number - floor(number)) * e;
+
+
+    int d = 10;
+    bool f = true;
+    for (int i = 0; i < nNumber; ++i)
+    {
+        if (b % 10 > d)
+        {
+            f = false;
+            break;
+        }
+        d = b % 10;
+        b /= 10;
+    }
+    if(f) return s1;
+    else return s2;
+}
+
+void choise(){
+    int a, n , k;
+    double usersNumber;
+    cout<<"Choose the part: ";
+    cin >> a;
+    if(a == 1){
+
+        cout<<"Input number ";
+        cin>> n;
+        cout<<endl;
+        cout<<"Input k ";
+        cin>>k;
+        cout<<endl;
+
+        cout<< moreK(n, k);
+    }
+
+    else if(a == 2){
+        cout << "Input number ";
+        cin >> usersNumber;
+        cout << endl;
+        cout << "Input n ";
+        cin >> n;
+        cout << endl;
+
+        cout << isUp(usersNumber, n);
+    }
+}
+
+
+
+int main()
+{
+    choise();
+
+    return 0;
+}*/
+
+
+/*void moreK(int *number, int *kNumber){
+    int arr[10] = {0};
+    int nModified, i;
+    string s1 = "True", s2 = "False";
+    bool mor = false;
+
+    nModified = *number;
+
+    while (nModified){
+        i = nModified%10;
+        arr[i]++;
+        nModified /= 10;
+    }
+
+    for(int j = 0; j < 10; j++){
+        if(arr[j] > *kNumber) {
+            mor = true;
+            break;
+        }
+    }
+    if(mor == true) cout <<"True";
+    else cout<<"False";
+
+}
+
+void isUp(double *number, int *nNumber){
+
+    string s1 = "True", s2 = "False";
+    int e = 1;
+    for (int i = 0; i < *nNumber; ++i) e *= 10;
+    int b = (*number - floor(*number)) * e;
+
+
+    int d = 10;
+    bool f = true;
+    for (int i = 0; i < *nNumber; ++i)
+    {
+        if (b % 10 > d)
+        {
+            f = false;
+            break;
+        }
+        d = b % 10;
+        b /= 10;
+    }
+     if(f == true) cout <<"True";
+     else cout<<"False";
+}
+
+void choise(){
+    int a, n , k;
+    double usersNumber;
+    cout<<"Choose the part: ";
+    cin >> a;
+    if(a == 1){
+
+        cout<<"Input number ";
+        cin>>n;
+        cout<<endl;
+        cout<<"Input k ";
+        cin>>k;
+        cout<<endl;
+
+        moreK(&n, &k);
+
+    }
+
+    else if(a == 2){
+        cout << "Input number ";
+        cin>>usersNumber;
+        cout << endl;
+        cout << "Input n ";
+        cin>>n;
+        cout << endl;
+
+        isUp(&usersNumber, &n);
+
+
+    }
+}
+
+
+
+int main()
+{
+    choise();
+
+    return 0;
+}*/
+
+
+bool moreK(int &number, int &kNumber){
+    int arr[10] = {0};
+    int nModified, i;
+    string s1 = "True", s2 = "False";
+    bool mor = false;
+
+    nModified = number;
+
+    while (nModified){
+        i = nModified%10;
+        arr[i]++;
+        nModified /= 10;
+    }
+
+    for(int j = 0; j < 10; j++){
+        if(arr[j] > kNumber) {
+            mor = true;
+            break;
+        }
+    }
+
+    return mor;
+
+}
+
+void isUp(double &number, int &nNumber){
+
+    string s1 = "True", s2 = "False";
+    int e = 1;
+    for (int i = 0; i < nNumber; ++i) e *= 10;
+    int b = (number - floor(number)) * e;
+
+
+    int d = 10;
+    bool f = true;
+    for (int i = 0; i < nNumber; ++i)
+    {
+        if (b % 10 > d)
+        {
+            f = false;
+            break;
+        }
+        d = b % 10;
+        b /= 10;
+    }
+     if(f == true) cout <<"True";
+     else cout<<"False";
+}
+
+void choise(){
+    int a, n , k;
+    double usersNumber;
+    cout<<"Choose the part: ";
+    cin >> a;
+    if(a == 1){
+
+        cout<<"Input number ";
+        cin>>n;
+        cout<<endl;
+        cout<<"Input k ";
+        cin>>k;
+        cout<<endl;
+
+        cout<<moreK(n, k)endl;
+
+    }
+
+    else if(a == 2){
+        cout << "Input number ";
+        cin>>usersNumber;
+        cout << endl;
+        cout << "Input n ";
+        cin>>n;
+        cout << endl;
+
+        isUp(usersNumber, n);
+
+
+    }
+}
+
+
+
+int main()
+{
+    choise();
+
+    return 0;
+}
