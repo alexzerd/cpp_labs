@@ -1,0 +1,39 @@
+#include "CMatrix.h"
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+
+  int n, m;
+
+
+  cout<<"Volume of matrix: "; cin>>n;
+  cout<<"Power "; cin>>m;
+
+
+  CMatrix <int> a(n, n, 1);
+  a.printMatrix();
+
+  cout<<endl<<endl;
+
+  CMatrix <int> b(n, n, 2);
+  b.printMatrix();
+
+  CMatrix <int> sum(n, n);
+
+  sum += a+b;
+
+  cout<<endl<<endl<<endl;
+
+ for(int k = 0; k < m-1; k++){
+
+    b = b*b;
+	sum += b;
+  }
+
+  sum.printMatrix();
+
+    return 0;
+}
