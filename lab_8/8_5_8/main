@@ -1,0 +1,26 @@
+#include "CDoublyLinkedList.h"
+#include <iostream>
+#include <cstdlib>
+
+
+using namespace std;
+
+int main()
+{
+    int n = 0, a[10];
+    cout<<"Input n: "; cin >> n;
+
+    for(int i = 0; i < n; i++){
+
+        a[i] = rand()%9;
+    }
+
+    CDLList <int> first(a, n);
+
+    first.printList();
+    cout<<endl<<endl;
+
+    first.calcValue();
+
+  return 0;
+}
