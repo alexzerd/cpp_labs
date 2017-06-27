@@ -1,0 +1,64 @@
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int main() {
+
+
+	const int N = 1000, n = N-1;
+
+	int arr[n] = {0}, k, power = 1, zero_counter = 0, length = 0;
+	bool is_break = false;
+
+	arr[n] = 5;
+
+	cout << "Input k" << endl;
+	cin >> k;
+
+	while(true){
+	
+	    for (int i = n; i >= 0; i--) {
+
+		  arr[i] *= 5;
+
+	    }
+
+		for (int i = n; i >= 0; i--) {
+
+			arr[i + 1] += (arr[i] / 10);
+
+			if (arr[i] / 10 == 0) length = n - i;
+
+		}
+
+		for (int i = n; i >= 0; i--) {
+
+			if (arr[i] == 5) { is_break = true; break; }
+
+			if (arr[i] == 0) { zero_counter++; }
+			else {
+
+				
+				if (zero_counter == k) { is_break = true; break; }
+				else { zero_counter = 0; }
+
+
+			}
+
+		}
+
+		if (is_break == true) { break; }
+
+		power++;
+
+	}
+
+
+
+	cout << "5 in " << power << " power has " << k << " zeroes gone one after another";
+	
+
+	_getch();
+	return 0;
+}
