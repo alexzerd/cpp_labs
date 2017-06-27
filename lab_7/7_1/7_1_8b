@@ -1,0 +1,139 @@
+#include <iomanip>
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
+void getMemory(int *&array, int nrow, int ncol);
+void free_memory(int *array, int nrow, int ncol);
+void setArray(int *array,  int nrow, int ncol);
+void printArray(int *array,  int nrow, int ncol);
+void setFinalArray(int *array,  int nrow, int ncol, int num);
+void sumMatrix(int m, int *finArr, int *edarray,int *dopArray, int *arr,   int nrow, int ncol, void (*pf)(int *array, int *dopArray,int nrow, int ncol));
+void multiplyMatrix(int *array, int *dopArray,int nrow, int ncol);
+
+
+int f(int i, int j, int n)
+  {
+    return (i * n + j);
+  }
+
+int main()
+{
+	int Result, nrow, ncol, M;
+	int *Array, *FinalArray, *EdArray, *DopArray;
+
+	cout<<"Number of rows: "; cin>>nrow;
+	cout<<"Number of cols: "; cin>>ncol;
+	cout<<"Input M: "; cin>>M;
+
+    getMemory(Array,nrow,ncol);
+	if(!Array)  cout<<"error"<<endl;
+
+	getMemory(FinalArray,nrow,ncol);
+	if(!FinalArray)  cout<<"error"<<endl;
+
+	getMemory(EdArray,nrow,ncol);
+	if(!EdArray)  cout<<"error"<<endl;
+
+	getMemory(DopArray,nrow,ncol);
+	if(!DopArray)  cout<<"error"<<endl;
+
+	int z = 0;
+    setFinalArray(DopArray, nrow, ncol, z);
+    setFinalArray(EdArray, nrow, ncol, z);
+    z = 1;
+    setFinalArray(FinalArray, nrow, ncol, z);
+	setArray (Array, nrow, ncol);
+	printArray (Array, nrow, ncol);
+
+	cout<<endl;
+
+	sumMatrix(M, FinalArray, EdArray, DopArray, Array, nrow, ncol, multiplyMatrix);
+
+
+	printArray (FinalArray, nrow, ncol);
+
+
+	free_memory(Array, nrow, ncol);
+	return 0;
+}
+
+void getMemory(int *&array, int nrow, int ncol)
+{
+	array = new int[nrow * ncol];
+}
+
+
+void free_memory (int *array, int nrow, int ncol)
+{
+	delete [] array ;
+}
+
+void setArray (int *array,int nrow,int ncol)
+{
+	for (int i = 0; i < nrow;  i++)
+		for (int j = 0; j < ncol; j++)
+			array[f(i, j, ncol)] = rand()%2;
+}
+
+void setFinalArray (int *array,int nrow,int ncol, int num)
+{
+	for (int i = 0; i < nrow;  i++)
+		for (int j = 0; j < ncol; j++)
+			array[f(i, j, ncol)] = num;
+}
+
+void printArray (int *array, int nrow, int ncol)
+{
+	for (int i = 0; i < nrow;  i++)
+	{
+		for (int j = 0; j < ncol;  j++)
+			cout <<setw(5)<<array[f(i, j, ncol)];
+            cout<<endl;
+	}
+}
+
+void sumMatrix (int m , int *finArr, int *edarray, int *dopArray, int *arr, int nrow, int ncol, void(*pf)(int *array, int *dopArray,int nrow, int ncol)){
+
+    for(int i = 0; i < ncol; i++){
+        for(int j = 0; j < nrow; j++){
+            edarray[f(i, j, ncol)] = arr[f(i, j, ncol)];
+        }
+    }
+
+    for(int i = 0; i < ncol; i++){
+        for(int j = 0; j < nrow; j++){
+            finArr[f(i, j, ncol)] += arr[f(i, j, ncol)];
+        }
+    }
+
+    for(int k = 1; k < m; k++ ){
+
+        (*pf)(edarray, dopArray, nrow, ncol);
+
+        for(int i = 0; i < ncol; i++){
+            for(int j = 0; j < nrow; j++){
+            finArr[f(i, j, ncol)] += edarray[f(i, j, ncol)];
+            }
+        }
+    }
+
+
+}
+
+void multiplyMatrix(int *array, int *dopArray,int nrow, int ncol){
+
+    for(int i = 0; i < ncol; i++){
+            for(int j = 0; j < nrow; j++){
+                    dopArray[f(i, j, ncol )] = 0;
+                    for(int l = 0; l < ncol; l++){
+                        dopArray[f(i, j, ncol)]+= array[f(i, l, ncol)]*array[f(l, j, ncol)];
+                    }
+            }
+
+
+    }
+}
+
+
