@@ -1,0 +1,79 @@
+#include <iostream>
+#include <cstdlib>
+#include <fstream>
+#include <istream>
+
+using namespace std;
+
+void inputNumToInFile(ofstream&);
+void searchDupl(ifstream&, int[]);
+void printFile(ofstream&, int[], int);
+
+
+int main()
+{
+    const int N = 10000;
+
+    int flagArray[N] = {0};
+
+
+    ofstream outfile( "numbers_9.txt" );
+    if (!outfile ) cout << "error" << endl;
+    else cout<<"File 9 created"<<endl;
+
+    inputNumToInFile(outfile);
+
+    cout<<"Numbres added"<<endl;
+
+    outfile.close();
+	outfile.clear();
+
+    ifstream infile ( "numbers_9.txt" );
+	if (!infile ) cout << "error" << endl;
+	else   cout<<"File 9 opened for reading"<<endl;
+
+	searchDupl(infile, flagArray);
+
+	cout<<"Duplicates searched"<<endl;
+
+	infile.close();
+	infile.clear();
+
+	ofstream output ( "numbers_dupl.txt" );
+    if (!output ) cout << "error" << endl;
+    else cout<<"File for dupl opened"<<endl;
+
+    printFile(output, flagArray, N);
+
+    cout<<"Yeah!";
+
+    return 0;
+}
+
+void inputNumToInFile(ofstream& out){
+    for(int i = 0; i < 12; i++){
+        int b = rand()%7;
+        out << b <<" ";
+        cout<< b <<" ";
+    }
+}
+
+void searchDupl(ifstream& in, int arr[]){
+
+    int a = 0;
+    while( in >> a){
+
+        arr[a]++;
+    }
+
+}
+
+void printFile(ofstream& out, int arr[], int n){
+
+    for(int i = 0; i < n; i++){
+        if(arr[i] >= 2){
+            out<<i<<" ";
+            cout<<i<<endl;
+        }
+    }
+}
