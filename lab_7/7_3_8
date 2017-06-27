@@ -1,0 +1,173 @@
+#include <iostream>  
+#include <conio.h>
+using namespace std;
+
+struct Node  
+{
+	char d;
+	Node *p;  
+};
+
+void find_eq(Node *top, int key, Node *&pv, Node *&ppv)
+{
+	pv = top; 
+    ppv = top; 
+               
+	while (pv && pv ->d != key) 
+	{
+		ppv = pv;   
+		pv = pv -> p;            
+	}
+}
+
+
+void find_gt(Node *top, char key, Node *&pv, Node *&ppv )
+{
+	pv = top; 
+    ppv = top;
+                 
+    while (pv && pv -> d <= key)
+	{
+		ppv = pv;   
+		pv = pv -> p;
+	}
+}
+
+void add(Node *&top, char key)   
+{                                                         
+	Node *nv, *pv = NULL,*ppv = NULL;
+	nv = new Node;         
+	nv -> d = key;
+	nv -> p = NULL;
+	if (!top)          
+      top = nv;          
+	else
+	{    if (top ->d >= key)                  
+		{
+			nv -> p = top;                 
+			top = nv;
+		}
+		else                                
+		{
+			find_gt(top, key, pv, ppv);
+           
+			nv -> p = pv; 
+     
+			ppv -> p = nv;
+		}
+	}
+}
+
+
+void vyvod(Node *top)     
+{
+	while (top)
+	{
+		cout<<top -> d<<' ';
+		top = top -> p;
+	}
+	cout<<"\n";
+}
+
+
+/*void del(Node *&top,int key)       
+ {
+    	Node *pv, *ppv;
+     
+	find_eq (top, key, pv, ppv); 
+	if (pv)                   
+	{
+		if (top -> d == key)   
+			top = top -> p;                   
+		else
+		ppv -> p = pv -> p; 
+                             
+		delete pv;          
+	}
+}*/
+
+
+
+void   form_New(Node *top, Node *top1, Node *&top2){
+
+	Node *pv = top; 
+    Node *ppv = top;
+	const int n = 100;
+	bool povtor = false;
+
+	int a[n] = {0};
+                 
+    while (pv)
+	{
+		a[(int)(pv -> d)]++;
+		ppv = pv;   
+		pv = pv -> p;
+	}
+
+	/*for(int i = 0; i < n; i++){
+		cout<<a[i]<<" ";
+	}
+	cout<<endl;*/
+
+	pv = top1; 
+    ppv = top1;
+
+	for(int i = 0; i < n; i++){
+
+		if(a[i] != 0){
+
+			povtor = false;
+		
+			while (pv)
+			{
+				if(pv -> d == (char)(i)){
+				
+					povtor = true;
+				}
+				
+				ppv = pv;   
+				pv = pv -> p;
+			}
+
+			if(povtor == false){
+				add(top2, (char)(i));
+			}
+
+			pv = top1;
+			ppv = top1;
+
+		}
+	}
+
+	
+
+
+}
+
+int main( )
+{
+	Node *top = NULL, *top1 = NULL, *top2 = NULL;
+      
+	for (int i = 20; i > 0; i--){
+		char k = rand()%40+33;
+		add(top, k);
+	} 
+    
+	vyvod(top); 
+	
+	for (int i = 20; i > 0; i--) {
+		char k = rand()%40+33;
+		add(top1, k); 
+	}
+      
+	vyvod(top1); 
+
+	form_New(top, top1, top2);
+
+	vyvod(top2); 
+
+
+	_getch();
+
+	return 0;
+}
