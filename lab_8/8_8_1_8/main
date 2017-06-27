@@ -1,0 +1,21 @@
+#include <iostream>
+#include "CxBitBinaryNumber.h"
+
+using namespace std;
+
+int main()
+{
+    CxBitBinaryNumber a = 20;
+    CxBitBinaryNumber b = 2;
+    CxBitBinaryNumber c;
+
+
+    if (a != b) {a.printNumber();}
+    else  {b.printNumber();}
+
+    c = a>>1;
+    c.printNumber();
+
+
+    return 0;
+}
