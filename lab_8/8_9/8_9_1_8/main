@@ -1,0 +1,151 @@
+#include <iostream>
+#include <string>
+#include <list>
+#include <fstream>
+#include <istream>
+#define MAX_ST_L = 50
+
+using namespace std;
+
+struct Student{
+
+    int course, dateOfBirth, number, age;
+    string surName;
+    string secondName, firstName, sex;
+    double progress;
+};
+
+
+
+void find_eq(list <Student> &List, list<Student>::iterator &p, string surname)
+{
+
+    p = List.begin();
+	while ((p != List.end()) && p->surName != surname)
+	{
+		p++;
+	}
+}
+
+
+
+void add(list <Student> &List, list<Student>::iterator &p, Student student1)
+{
+
+	List.push_back(student1);
+}
+
+
+void del(list <Student> &List, list<Student>::iterator &p, string key)
+ {
+
+	find_eq (List, p, key);
+	List.erase(p);
+}
+
+void formListAuto(ifstream& infile, list <Student> &List, list<Student>::iterator &p){
+
+        while(!infile.eof())
+        {
+            Student currStud;
+            infile >> currStud.surName;
+            if (infile.eof())
+                break;
+            infile >> currStud.firstName;
+            infile >> currStud.secondName;
+            infile >> currStud.sex;
+            infile >> currStud.dateOfBirth;
+            infile >> currStud.age;
+            infile >> currStud.course;
+            infile >> currStud.number;
+            infile >> currStud.progress;
+
+
+
+
+            add(List, p, currStud);
+
+        }
+
+        //List.sort();
+
+}
+
+void outputList(list <Student> &List, list<Student>::iterator p)
+{
+	p = List.begin();
+
+	while(p != List.end())
+    {
+		cout<<p -> surName<<endl;
+        //cout<<"Function started"<<endl;
+		cout<<p -> firstName<<endl;
+		cout<<p -> secondName<<endl;
+		cout<<p -> sex<<endl;
+		cout<<p -> dateOfBirth<<endl;
+		cout<<p -> age<<endl;
+		cout<<p -> course<<endl;
+		cout<<p -> number<<endl;
+		cout<<p -> progress<<endl;
+
+		cout<<endl;
+
+		p++;
+	}
+}
+
+void formListNeyd(list <Student> &List, list<Student>::iterator p, list <Student> &ListN,list<Student>::iterator pN ){
+
+
+   p = List.begin();
+
+    while(p != List.end()){
+
+        if (p -> progress < 4.0)
+        {
+
+
+            Student currStud = *p;
+            add(ListN, pN, currStud);
+
+           // del(List, p, p->surName);
+        }
+
+        p++;
+    }
+
+}
+
+
+int main()
+{
+
+    list <Student> List;
+    list<Student>::iterator p = List.begin();
+
+
+
+    ifstream infile ( "student.txt" );
+	if (!infile )
+		cout << "error" << endl;
+
+
+    formListAuto(infile, List, p);
+    outputList(List, p);
+
+    list <Student> ListNeyd;
+    list<Student>::iterator pN = ListNeyd.begin();
+
+    cout<<endl;
+
+    formListNeyd(List, pN, ListNeyd, pN);
+
+    cout<<"Neyd students: "<<endl;
+
+    outputList(ListNeyd, pN);
+
+
+
+
+    return 0;
+}
