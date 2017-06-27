@@ -1,0 +1,165 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+struct Vertice {
+  int adjVert;
+  Vertice *pNext;
+};
+
+void graphCreate(Vertice*, int, ifstream&);
+void graphOutput(Vertice*, int);
+void add(Vertice*, int);
+void dfs(Vertice*, int, int, bool &, bool*, int*, int &, int &);
+void erase(Vertice* &);
+
+int main()
+{
+  //cout << "\n file name:	";
+  string fileName;	//getline (cin, "input.txt");
+  ifstream in("input.txt");
+  int numberOfVerts;	in >> numberOfVerts;
+  int numberOfEdges;	in >> numberOfEdges;
+  Vertice *adjacent = new Vertice[numberOfVerts];
+  for (int i = 0; i < numberOfVerts; i++)
+    adjacent[i].pNext = NULL;
+
+  graphCreate(adjacent, numberOfVerts, in);
+  graphOutput(adjacent, numberOfVerts);
+
+  cout << " to: ";
+  int w;	cin >> w;
+
+  cout<< " length: ";
+  int Length = 0, usersLength; cin>> usersLength;
+
+  for(int v = 0; v <= numberOfEdges; v++ ){
+
+          if(v > w){
+
+            int buf = v;
+            v = w;
+            w = buf;
+          }
+
+
+          bool exist = false;
+          bool *trace = new bool[numberOfVerts];
+          for (int i = 0; i < numberOfVerts; i++)
+            trace[i] = false;
+          int *vector = new int[numberOfVerts];
+          int pos = 0;
+
+          dfs(adjacent, v, w, exist, trace, vector, pos, Length);
+
+          //cout<<Length;
+
+          delete[] trace;
+
+          cout<<v<<":" <<endl<<endl;
+
+
+
+          if ((exist == true) && ((pos) == usersLength)) {
+            cout << " way:\n " << v;
+            for (int i = pos - 1; i >= 0; i--)
+              cout << " - " << vector[i];
+
+            cout << "\n";
+          }
+          else
+            cout << " no posible way\n";
+
+        cout<<endl;
+
+            delete[] vector;
+
+  }
+
+
+
+
+  return 0;
+}
+
+void graphCreate(Vertice* adj, int n, ifstream &in)
+{
+  int i, k;
+
+  in >> i;
+  in >> k;
+  while (!in.eof()) {
+    add(adj + i, k);
+    add(adj + k, i);
+
+    in >> i;
+    in >> k;
+  }
+}
+
+void add(Vertice* adj, int vertNumb)
+{
+  Vertice *newVert = new Vertice;
+  newVert->adjVert = vertNumb;
+  newVert->pNext = NULL;
+
+  while (adj->pNext != NULL)
+    adj = adj->pNext;
+  adj->adjVert = vertNumb;
+  adj->pNext = newVert;
+}
+
+void graphOutput(Vertice* adj, int n)
+{
+  for (int i = 0; i < n; i++) {
+    cout << i << ":";
+
+    Vertice *pAux = adj + i;
+    while (pAux->pNext != NULL) {
+      cout << " " << pAux->adjVert;
+      pAux = pAux->pNext;
+    }
+
+    cout << endl;
+  }
+}
+
+void dfs(Vertice* adj, int v, int fin, bool &exi, bool* trace, int* vector, int &pos, int &Length)
+{
+  trace[v] = true;
+  if (trace[fin] == true) {
+    exi = true;
+    return;
+  }
+
+  int nextVert;
+  Vertice* adjDup = adj;
+
+  while (adjDup->pNext != NULL) {
+    nextVert = adjDup->adjVert;
+    if (trace[nextVert] == false) {
+
+
+      dfs(adj + nextVert, nextVert, fin, exi, trace, vector, pos, Length);
+        Length++;
+      if (exi) {
+        vector[pos++] = nextVert;
+        break;
+      }
+      trace[v] = false;
+    }
+    adjDup = adjDup->pNext;
+  }
+  trace[v] = false;
+}
+
+void erase(Vertice* &pVer)
+{
+  if (pVer == NULL)
+    return;
+  erase(pVer->pNext);
+  Vertice* toDel = pVer;
+  pVer = NULL;
+  delete toDel;
+}
