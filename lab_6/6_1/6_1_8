@@ -1,0 +1,59 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+
+using namespace std;
+
+int main()
+{
+    ofstream out("input.txt", ios::binary);
+    //ofstream out("output.txt", ios::binary);
+
+    const int Size = 10;
+
+    int odd[Size], even[Size];
+    int x;
+    int i = 0, k = 0;
+
+    for(int i = 0; i< Size*2; i++){
+
+        int x = rand()% 100;
+
+
+        out.write(reinterpret_cast<char*>(&x), sizeof(x));
+    }
+
+    out.close();
+    out.clear();
+
+    ifstream in("input.txt", ios::binary);
+
+
+
+    while(in.read(reinterpret_cast<char*>(&x), sizeof(int))){
+        if(x%2 == 0) {odd[i] = x; i++;}
+        else {even[k] = x; k++;}
+    }
+    k = 0; i = 0;
+
+    ofstream out1("output.txt", ios::binary);
+
+    for(int l = 0; l < Size-1; l+= 2){
+        out1.write(reinterpret_cast<char*>(&odd[l]), sizeof(int));
+        out1.write(reinterpret_cast<char*>(&odd[l+1]), sizeof(int));
+        out1.write(reinterpret_cast<char*>(&even[l]), sizeof(int));
+        out1.write(reinterpret_cast<char*>(&even[l+1]), sizeof(int));
+    }
+
+    out1.close();
+    out1.clear();
+
+    in.close();
+    in.clear();
+    in.open("output.txt", ios::binary);
+    while(in.read(reinterpret_cast<char*>(&x), sizeof(int))){
+        cout<<x<<" ";
+    }
+
+    return 0;
+}
