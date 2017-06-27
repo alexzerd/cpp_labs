@@ -1,0 +1,111 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+template <typename T_Arr>
+void setArrayAutoUp(T_Arr a[],int  n){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = i;
+    }
+}
+
+template <typename T_Arr>
+void setArrayAutoDown(T_Arr a[], int n){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = 10-i;
+    }
+}
+
+template <typename T_Arr>
+void setArrayRand(T_Arr a[], int n){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = rand()%10;
+    }
+}
+
+template <typename T_Arr>
+void quickSort(T_Arr a[], int beg, int en, int &sr, int &per){
+
+    int i = beg, j = en;
+
+
+
+    int mid = a[(beg +en)/2];
+
+    do{
+
+        while (sr++ , a[i] < mid) {i++;}
+
+        while (sr++, a[j] > mid) {j--;}
+        if (i <= j) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+            i++; j--; per+=3;
+        }
+
+
+    } while(i < j);
+
+    if ( beg < j ) {quickSort(a,beg,j,sr, per );}
+    if (i < en) {quickSort(a, i,en, sr, per);}
+}
+
+template <typename T_Arr>
+void insSort(T_Arr a[], int n, int &sr, int &per){
+
+    sr = 0; per=0;
+
+    for (int i=1; i < n; i++)
+    {
+        int x = a[i];
+        int left = 0;
+        int right = i-1;
+        per++;
+        while (left<=right)
+        {
+            int mid = (left+right)/2;
+            if (x< a[mid]) right = mid - 1;
+            else left = mid + 1;
+            sr++;
+        }
+
+        for (int j = i-1; j>=left; j--) {a[j+1] = a[j]; per++;}
+        a[left] = x; per++;
+    }
+
+}
+template <typename T_Arr>
+void printArray(T_Arr a[], int n){
+
+    for(int i = 0; i < n; i++){
+        cout<<a[i]<<" ";
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    const int Size = 100;
+    int Arr[Size], countPerem = 0, countSr = 0;
+
+    setArrayAutoDown(Arr, Size);
+    printArray(Arr, Size);
+    insSort(Arr, Size, countSr, countPerem);
+    printArray(Arr, Size);
+    cout<<"Peremesh  "<<countPerem<<" Sravn   "<<countSr<<endl;
+    cout<<endl;
+
+    countPerem = 0; countSr = 0;
+    setArrayAutoDown(Arr, Size);
+    printArray(Arr, Size);
+    quickSort(Arr, 0, Size-1, countSr, countPerem);
+    printArray(Arr, Size);
+    cout<<"Peremesh  "<<countPerem<<" Sravn   "<<countSr<<endl;
+
+    return 0;
+}
