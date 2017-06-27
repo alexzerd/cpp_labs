@@ -1,0 +1,138 @@
+#include <iostream>
+#include <iostream>
+#include <fstream>
+#include <istream>
+
+using namespace std;
+#define MAX_STR_LEN 50
+
+
+struct Student
+{
+	unsigned int age, course;
+	float progress;
+	char name [MAX_STR_LEN + 1], sex [MAX_STR_LEN + 1] ;
+};
+
+Student studFilledManualy();
+
+void printStudProfile(Student);
+void inputStudToFile(ofstream& outfile, Student stud);
+int otlichVsego(ifstream& infile, ofstream& out, int course);
+
+int main ()
+{
+	const int N = 1;
+	Student group [N];
+
+	ofstream outfile ( "student.txt", ios::binary );
+	if (!outfile )
+		cout << "error" << endl;
+
+	for ( int i = 0; i < N; i++ )
+	{
+		group[i] = studFilledManualy();
+		inputStudToFile(outfile, group[i]);
+	}
+	outfile.close();
+	outfile.clear();
+
+	ifstream infile ( "student.txt" , ios::binary);
+	if (!infile )
+		cout << "error" << endl;
+
+    ofstream out("student_no.txt", ios::binary);
+    if (!out)
+		cout << "error" << endl;
+
+	int course;
+	cout << "Show year: ";
+	cin >> course;
+	int koll = otlichVsego(infile, out, course);
+	cout<<endl;
+
+	infile.close();
+	infile.clear();
+
+	cout<<endl;
+
+	cout << "Number of low-grade students: " << koll << endl;
+
+	return 0;
+}
+
+void inputStudToFile(ofstream& outfile, Student stud)
+{
+	outfile.write(stud.name, MAX_STR_LEN);
+
+	outfile.write(reinterpret_cast<char*>(&stud.age), sizeof(int));
+
+	outfile.write(stud.sex, MAX_STR_LEN);
+
+	outfile.write(reinterpret_cast<char*>(&stud.course), sizeof(int));
+
+	outfile.write(reinterpret_cast<char*>(&stud.progress), sizeof(float));
+
+}
+
+
+Student studFilledManualy()
+{
+	Student stud;
+
+	cout<<"FIO : ";
+	cin.getline(stud.name, MAX_STR_LEN);
+
+	cout<<"age : ";
+	cin >> stud.age;
+
+	cout <<"sex : ";
+	cin >> stud.sex;
+
+	cout<<"course : ";
+	cin >> stud.course;
+
+	cout<<"progress : ";
+	cin >> stud.progress;
+	cin.get();
+
+	return stud;
+}
+
+void printStudProfile(Student stud)
+{
+	cout<<"FIO : "<<stud.name << endl;
+
+	cout<<"age : "<< stud.age <<endl;
+
+	cout <<"sex : " << stud.sex << endl;
+
+	cout<<"course : "<< stud.course <<endl;
+
+	cout<<"progress : "<< stud.progress <<endl;
+}
+
+
+int otlichVsego(ifstream& infile, ofstream& out, int course)
+{
+	int koll = 0;
+	while(!infile.eof())
+	{
+		Student currStud;
+		infile.read(reinterpret_cast<char*>(&currStud.name), MAX_STR_LEN);
+		if (infile.eof())
+			break;
+		infile.read(reinterpret_cast<char*>(&currStud.age), sizeof(int));
+		infile.read(reinterpret_cast<char*>(&currStud.sex), MAX_STR_LEN);
+		infile.read(reinterpret_cast<char*>(&currStud.course), sizeof(int));
+		infile.read(reinterpret_cast<char*>(&currStud.progress), sizeof(float));
+		if ( currStud.course == course && currStud.progress < 4.0 )
+		{
+			printStudProfile(currStud);
+			inputStudToFile(out, currStud);
+			koll++;
+		}
+
+	}
+	return koll;
+}
