@@ -1,0 +1,66 @@
+#include <iostream>
+#include <conio.h>
+#include "CMatrix.h"
+#include <string>
+
+using namespace std;
+
+CMatrix* arr[3]; int indOfArr = 0;
+
+void printAll(CMatrix* arr[], int num = 3){
+
+  for(int i = 0; i < num; i++){
+
+	arr[i]->printMatrix();
+
+	cout<<endl<<endl<<endl;
+  }
+
+}
+
+int main()
+{
+
+  int n, m;
+
+
+  cout<<"Volume of matrix: "; cin>>n;
+  cout<<"Power "; cin>>m;
+
+  string st1 = "one", st2 = "rand";
+
+
+
+  CMatrix a(n, n, 1);
+  a.printMatrix();
+  arr[0] = &a;
+
+
+  cout<<endl<<endl<<endl;
+
+  CMatrix b(n, n, 2);
+  arr[1] = &b;
+  b.printMatrix();
+
+  CMatrix sum(n, n);
+  arr[2] = &sum;
+
+  sum += a+b;
+
+  cout<<endl<<endl<<endl;
+
+ for(int k = 0; k < m-1; k++){
+
+    b = b*b;
+	sum += b;
+  }
+
+  sum.printMatrix();
+
+  printAll(arr, 3);
+
+  _getch();
+
+
+  return 0;
+}
