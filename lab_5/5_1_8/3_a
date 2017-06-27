@@ -1,0 +1,218 @@
+#include <iomanip>
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+const int N = 4, n = N-1;
+
+template <typename T>
+void setMatrix(T a[][N]){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+
+			a[i][j] = rand() % 10;
+		}
+	}
+}
+
+template <typename T>
+void setMatrixHand(T a[][N]){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+
+			cin>>a[i][j];
+		}
+	}
+}
+
+template <typename T>
+void printMatrix(T a[][N]){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+			cout << setw(3) << a[i][j];
+		}
+	}
+	cout << endl;
+}
+
+template <typename T, typename T1>
+void solveMatrix(T a[][N], T1 b[][N]){
+    for (int i = 0; i <= n; i++) {
+		for (int j = i; j <= n; j++) {
+
+			b[i][j] = a[i][j];
+
+			for (int k = 0; k <= n; k++) {
+				for (int l = 0; l <= n; l++) {
+
+					if (!((k >= i &&  k <= j) && (l >= i && l <= j))) {
+						if (b[i][j] < a[k][l]) b[i][j] = a[k][l];
+					}
+				}
+			}
+			b[j][i] = b[i][j];
+        }
+    }
+}
+
+int main(){
+
+
+	int first_array[N][N], second_array[N][N];
+
+    setMatrix(first_array);
+
+    printMatrix(first_array);
+
+    solveMatrix(first_array, second_array);
+
+	printMatrix(second_array);
+
+	return 0;
+}
+
+/*template <typename T>
+void setMatrix(T (*a)[N]){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+
+			a[i][j] = rand() % 10;
+		}
+	}
+}
+
+template <typename T>
+void setMatrixHand(T (*a)[N]){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+
+			cin>>a[i][j];
+		}
+	}
+}
+
+template <typename T>
+void printMatrix(T (*a)[N]){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+			cout << setw(3) << a[i][j];
+		}
+	}
+	cout << endl;
+}
+
+template <typename T, typename T1>
+void solveMatrix(T (*a)[N], T1 (*b)[N]){
+    for (int i = 0; i <= n; i++) {
+		for (int j = i; j <= n; j++) {
+
+			b[i][j] = a[i][j];
+
+			for (int k = 0; k <= n; k++) {
+				for (int l = 0; l <= n; l++) {
+
+					if (!((k >= i &&  k <= j) && (l >= i && l <= j))) {
+						if (b[i][j] < a[k][l]) b[i][j] = a[k][l];
+					}
+				}
+			}
+			b[j][i] = b[i][j];
+        }
+    }
+}
+
+int main(){
+
+
+	int first_array[N][N], second_array[N][N];
+
+    setMatrix(first_array);
+
+    printMatrix(first_array);
+
+    solveMatrix(first_array, second_array);
+
+	printMatrix(second_array);
+
+	return 0;
+}*/
+
+/*template <typename T>
+void setMatrix(T **a){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+
+			a[i][j] = rand() % 10;
+		}
+	}
+}
+
+template <typename T>
+void setMatrixHand(T **a){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+
+			cin>>a[i][j];
+		}
+	}
+}
+
+template <typename T>
+void printMatrix(T **a){
+    for (int i = 0; i <= n; i++) {
+		cout << endl;
+		for (int j = 0; j <= n; j++) {
+			cout << setw(3) << a[i][j];
+		}
+	}
+	cout << endl;
+}
+
+template <typename T, typename T1>
+void solveMatrix(T **a, T1 **b){
+    for (int i = 0; i <= n; i++) {
+		for (int j = i; j <= n; j++) {
+
+			b[i][j] = a[i][j];
+
+			for (int k = 0; k <= n; k++) {
+				for (int l = 0; l <= n; l++) {
+
+					if (!((k >= i &&  k <= j) && (l >= i && l <= j))) {
+						if (b[i][j] < a[k][l]) b[i][j] = a[k][l];
+					}
+				}
+			}
+			b[j][i] = b[i][j];
+        }
+    }
+}
+
+
+int main(){
+
+
+	int first_array[N][N], second_array[N][N];
+
+	int *par1[ ]={&first_array[0][0],  &first_array[1][0], &first_array[2][0], &first_array[3][0]};
+	int *par2[ ] = {&second_array[0][0],  &second_array[1][0], &second_array[2][0], &second_array[3][0]};
+
+    setMatrix(par1);
+
+    printMatrix(par1);
+
+    solveMatrix(par1, par2);
+
+	printMatrix(par2);
+
+	return 0;
+}*/
