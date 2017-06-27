@@ -1,0 +1,210 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <istream>
+#define MAX_ST_L = 50
+
+using namespace std;
+
+struct Student{
+
+    int course, dateOfBirth, number, age;
+    string surName;
+    string secondName, firstName, sex;
+    double progress;
+};
+
+struct List{
+    Student student;
+    List *next;
+};
+
+struct ListNeyd{
+
+    Student student;
+    List *nextNode;
+
+};
+
+void find_gt(List *top, string surname, List *&pv, List *&ppv )
+{
+	pv = top;
+    ppv = top;
+
+    while (pv && pv -> student.surName <= surname)
+	{
+		ppv = pv;
+		pv = pv -> next;
+	}
+}
+
+
+void find_eq(List *top, string surname, List *&pv, List *&ppv)
+{
+	pv = top;
+    ppv = top;
+
+	while (pv && pv ->student.surName != surname)
+	{
+		ppv = pv;
+		pv = pv -> next;
+	}
+}
+
+
+
+void add(List *&top, Student student1)
+{
+	List *nv, *pv = NULL,*ppv = NULL;
+	nv = new List;
+
+
+
+	nv -> student = student1;
+	string surname  = nv -> student.surName;
+
+	nv -> next = NULL;
+
+	if (!top){
+	     top = nv;
+	}
+
+	else
+	{    if (top ->student.surName >= surname)
+		{
+			nv -> next = top;
+			top = nv;
+		}
+		else
+		{
+			find_gt(top, surname, pv, ppv);
+			nv -> next = pv;
+			ppv -> next = nv;
+		}
+	}
+}
+
+
+void del(List *&top, string key)
+ {
+    	List *pv, *ppv;
+
+	find_eq (top, key, pv, ppv);
+	if (pv)
+	{
+		if (top -> student.surName == key)
+			top = top -> next;
+		else
+		ppv -> next = pv -> next;
+
+		delete pv;
+	}
+}
+
+void formListAuto(ifstream& infile, List *&top){
+
+
+
+
+        while(!infile.eof())
+        {
+            Student currStud;
+            infile >> currStud.surName;
+            if (infile.eof())
+                break;
+            infile >> currStud.firstName;
+            infile >> currStud.secondName;
+            infile >> currStud.sex;
+            infile >> currStud.dateOfBirth;
+            infile >> currStud.age;
+            infile >> currStud.course;
+            infile >> currStud.number;
+            infile >> currStud.progress;
+
+
+            add(top, currStud);
+
+
+        }
+
+}
+
+void outputList(List *top)
+{
+	while(top)
+    {
+		cout<<top -> student.surName<<endl;
+        //cout<<"Function started"<<endl;
+		cout<<top -> student.firstName<<endl;
+		cout<<top -> student.secondName<<endl;
+		cout<<top -> student.sex<<endl;
+		cout<<top -> student.dateOfBirth<<endl;
+		cout<<top -> student.age<<endl;
+		cout<<top -> student.course<<endl;
+		cout<<top -> student.number<<endl;
+		cout<<top -> student.progress<<endl;
+
+		cout<<endl;
+
+		top = top -> next;
+	}
+}
+
+
+
+void formListNeyd(List *top, List *&topNeyd){
+
+     List *pv, *ppv;
+     pv = top;
+     ppv = top;
+
+    while(pv){
+
+
+
+        if (pv -> student.progress < 4.0)
+        {
+
+
+            add(topNeyd, pv -> student);
+
+            del(top, pv -> student.surName);
+        }
+
+        ppv = pv;
+		pv = pv -> next;
+
+       // top = top -> next;
+    }
+
+
+
+}
+
+int main()
+{
+
+    List *top = NULL;
+
+    ifstream infile ( "student.txt" );
+	if (!infile )
+		cout << "error" << endl;
+
+    formListAuto(infile, top);
+    outputList(top);
+
+    List *topNeyd = NULL;
+
+    formListNeyd(top, topNeyd);
+
+    cout<<"Neyd students: "<<endl;
+
+    outputList(topNeyd);
+
+
+    cout<<"Other students: "<<endl;
+    outputList(top);
+
+
+    return 0;
+}
