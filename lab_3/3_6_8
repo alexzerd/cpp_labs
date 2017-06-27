@@ -1,0 +1,83 @@
+#include <iostream>
+#include <conio.h>
+#include <iomanip>
+
+using namespace std;
+
+
+int main() {
+
+
+	const int N = 5, n = N-1;
+
+	int arrA[N][N], arrB[N][N], k = 0, l = 0, min = 0, s = 49;
+
+	for (int i = 0; i <= n; i++) {
+		
+		cout << endl;
+
+		for (int j = 0; j <= n; j++) {
+			
+			arrA[i][j] = rand() % 10;
+			arrB[i][j] = 0;
+
+			cout <<setw(5)<< arrA[i][j];
+
+			
+
+		}
+	}
+
+	cout << endl;
+
+	for (int i = n; i >= 0; i--) {
+		for (int j = n; j >= 0; j--) {
+
+			arrB[i][j] = arrA[i][j];
+			
+			k = n;
+			l = n;
+
+			for (; ((k+l >= i + j) && (k >= 0)); k--) {
+				for (; ((l+k >= i + j) && (l >= 0)); l--) {
+
+					//cout << k << " " << l << " " << arrA[k][l]<< endl;
+
+					if (arrB[i][j] > arrA[k][l]) { 
+						
+						for (int i = n; i >= 0; i--) {
+							for (int j = 0; j >= 0; j--) {
+							
+							   //здесь нужно сделать копию диагоналей
+							}
+						
+						}
+						arrB[i][j] = arrA[k][l]; 
+					}
+				}
+
+
+			}
+
+			
+		}
+	}
+
+	cout << endl;
+
+	for (int i = 0; i <= n; i++) {
+
+		cout << endl;
+
+		for (int j = 0; j <= n; j++) {
+
+
+			cout << setw(5) << arrB[i][j];
+
+		}
+	}
+
+
+	_getch();
+	return 0;
+}
