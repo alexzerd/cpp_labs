@@ -1,0 +1,66 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+const int n = 10;
+
+
+template <typename T_Arr>
+void setArrayAuto(T_Arr a[]){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = 10-i;
+    }
+}
+
+template <typename T_Arr>
+void setArrayRand(T_Arr a[]){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = rand()%10;
+    }
+}
+
+template <typename T_Arr>
+void setArrayHand(T_Arr a[]){
+
+    for(int i  = 0; i < n; i++){
+        cin>>a[i];
+    }
+}
+
+template <typename T_Arr1, typename T_Arr2>
+void solveProblem(T_Arr1 a[], T_Arr2 b[]){
+
+     for(int i = 0; i < n; i++){
+        for(int j = n-1; j > i; j--){
+            if(a[j] <= a[i]) b[i]++;
+        }
+    }
+}
+
+
+template <typename T_Arr>
+void printArray(T_Arr a[]){
+
+    for(int i = 0; i < n; i++){
+        cout<<a[i]<<endl;
+    }
+}
+int main()
+{
+
+    char Arr[n];
+    int B[n] = {0};
+
+    setArrayHand(Arr);
+    printArray(Arr);
+    cout << endl;
+    solveProblem(Arr, B);
+    printArray(B);
+
+    return 0;
+}
+
+
