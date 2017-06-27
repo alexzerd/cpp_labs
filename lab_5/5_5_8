@@ -1,0 +1,79 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+double eps  = 1e-6;
+double summ(double (*p_func)(double, double, double), double t, double s ,int n, double a = 0, double b = 1){
+
+     double h = (b-a)/n;
+     double x_tek = a, xn = b, sum1 = 0, temp = 0;
+
+
+    for(int i = 1; i < n; i++){
+        x_tek = a+i*h;
+        sum1 += (*p_func)(x_tek, t, s);
+     }
+
+     temp = sum1 = h*((((*p_func)(a, t, s)+(*p_func)(b, t, s))/2)+sum1);
+
+     return temp;
+}
+
+double countN(double s1 = 0, double s2 = 0.5, double ds = 0.1){
+    return (s2-s1)/ds;
+}
+
+double func(double x, double t, double s){
+    return t/(pow((pow(x, 3)+1), 0.5)+s);
+}
+
+double solve(double (*p_func)(double, double, double), double t, double s , int &k, double a = 0, double b = 1){
+
+     int n = 1;
+     double h = (b-a)/n;
+     double x_tek = a, xn = b, sum1 = 0, sum2 = 0, temp = 0;
+
+
+     sum2 = summ(func, t, s, n, a, b);
+     k = 0;
+
+     do{
+
+		n *= 2;
+
+		sum1 = sum2;
+
+        sum2 = summ(func, t, s, n, a, b);
+        k++;
+
+	}
+	while (fabs(sum1 - sum2) > eps) ;
+
+	double integr = sum1;
+
+	return integr;
+
+
+}
+
+int main()
+{
+    int it = 0;
+    double number_of_rows = countN();
+    double s1_users = 0, s2_users = 0.5, ds_users = 0.1;
+    double t1_users  = 1, t2_users = 3.5, dt_users = 0.5;
+
+    for(int i = 1; i <= static_cast< int >( number_of_rows)+1; i++){
+        double rez = solve(func, t1_users, s1_users, it );
+        cout<<setw(4)<<s1_users<<setw(4)<<t1_users<<setw(10)<<rez<<setw(4)<<it;
+        cout<<endl;
+        s1_users += ds_users;
+        t1_users += dt_users;
+
+
+    }
+
+    return 0;
+}
