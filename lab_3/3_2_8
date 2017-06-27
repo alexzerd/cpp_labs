@@ -1,0 +1,78 @@
+
+#include <iomanip>
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int main(){
+
+	const int N = 4, n = N-1;
+
+	int first_array[N][N], second_array[N][N], max;
+
+
+	for (int i = 0; i <= n; i++) {
+		
+		cout << endl;
+
+		for (int j = 0; j <= n; j++) {
+			
+			first_array[i][j] = rand() % 10;               //заполнение и вывод первого массива
+			
+			/*if (i == 2 && j == 1) first_array[i][j] = 10;
+			if (i == 0 && j == 3) first_array[i][j] = 11;*/     //блок для теста
+			
+			cout << setw(3) << first_array[i][j];
+
+			
+		}
+	
+	}
+
+
+	max = 0;
+
+	cout << endl;
+
+	for (int i = 0; i <= n; i++) {
+
+		for (int j = i; j <= n; j++) {
+
+			second_array[i][j] = first_array[i][j];
+/*
+			int upper_range_i = (i > 1) ? (i + ((N ) / 2) - 1) : (i - ((N ) / 2) + 1);
+			int upper_range_j = (j > 1) ? (j + ((N) / 2) - 1) : (j - ((N) / 2) + 1);
+			*/
+			for (int k = 0; k <= n; k++) {
+				for (int l = 0; l <= n; l++) {
+
+					if (!((k >= i &&  k <= j) && (l >= i && l <= j))) {                     //нахождение максимального элемента из заданной области
+
+						if (second_array[i][j] < first_array[k][l]) second_array[i][j] = first_array[k][l];
+					}
+					//else { cout <<i <<" " <<j << " "<< first_array[k][l] << endl; }
+				}
+			}
+
+			second_array[j][i] = second_array[i][j];
+	
+	}
+}
+
+	for (int i = 0; i <= n; i++) {
+
+		cout << endl;
+
+		for (int j = 0; j <= n; j++) {
+			
+			//second_array[i][j] = max;
+			cout << setw(3) << second_array[i][j];      //вывод второго массива
+		}
+	
+	}
+
+	_getch();
+
+	return 0;
+}
