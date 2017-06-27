@@ -1,0 +1,136 @@
+#include <iostream>
+#include <fstream>
+#include <istream>
+using namespace std;
+#define MAX_STR_LEN 50
+
+struct Student
+{
+	unsigned int age, course;
+	float progress;
+	char name [MAX_STR_LEN + 1], sex [MAX_STR_LEN + 1] ;
+};
+
+Student studFilledManualy();
+
+void printStudProfile(Student);
+void inputStudToFile(ofstream& outfile, Student stud);
+int otlichVsego(ifstream& infile, ofstream& out, int course);
+
+int main ()
+{
+	const int N = 1;
+	Student group [N];
+
+	ofstream outfile ( "student.txt" );
+	if (!outfile )
+		cout << "error" << endl;
+
+	for ( int i = 0; i < N; i++ )
+	{
+		group[i] = studFilledManualy();
+		inputStudToFile(outfile, group[i]);
+	}
+	outfile.close();
+	outfile.clear();
+
+	cout<<endl;
+
+	ifstream infile ( "student.txt" );
+	if (!infile )
+		cout << "error" << endl;
+
+    ofstream out("student_no.txt");
+    if (!out)
+		cout << "error" << endl;
+
+	int course;
+	cout << "Show year: ";
+	cin >> course;
+	cout<<endl;
+	int koll = otlichVsego(infile, out, course);
+	cout<<endl;
+
+	infile.close();
+	infile.clear();
+
+	cout << "Number of low-grade students: " << koll << endl;
+
+	return 0;
+}
+
+void inputStudToFile(ofstream& outfile, Student stud)
+{
+	outfile << stud.name << " ";
+
+	outfile << stud.age << " ";
+
+	outfile << stud.sex << " ";
+
+	outfile << stud.course << " ";
+
+	outfile << stud.progress << endl;
+
+}
+
+
+Student studFilledManualy()
+{
+	Student stud;
+
+	cout<<"FIO : ";
+	cin.getline(stud.name, MAX_STR_LEN);
+
+	cout<<"age : ";
+	cin >> stud.age;
+
+	cout <<"sex : ";
+	cin >> stud.sex;
+
+	cout<<"course : ";
+	cin >> stud.course;
+
+	cout<<"progress : ";
+	cin >> stud.progress;
+	cin.get();
+
+	return stud;
+}
+
+void printStudProfile(Student stud)
+{
+	cout<<"FIO : "<<stud.name << endl;
+
+	cout<<"age : "<< stud.age <<endl;
+
+	cout <<"sex : " << stud.sex << endl;
+
+	cout<<"course : "<< stud.course <<endl;
+
+	cout<<"progress : "<< stud.progress <<endl;
+}
+
+
+int otlichVsego(ifstream& infile, ofstream& out, int course)
+{
+	int koll = 0;
+	while(!infile.eof())
+	{
+		Student currStud;
+		infile >> currStud.name;
+		if (infile.eof())
+			break;
+		infile >> currStud.age;
+		infile >> currStud.sex;
+		infile >> currStud.course;
+		infile >> currStud.progress;
+		if ( currStud.course == course && currStud.progress < 4.0 )
+		{
+			printStudProfile(currStud);
+			inputStudToFile(out, currStud);
+			koll++;
+		}
+
+	}
+	return koll;
+}
