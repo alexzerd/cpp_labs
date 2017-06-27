@@ -1,0 +1,158 @@
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+
+using namespace std;
+
+int main(){
+
+
+	int numberTen, numberTenModified, numberTenReversed, k, r, l, n;
+	char numberTwo[21], numberTwoReversed[21];
+	bool palind;
+
+	for (int i = 0; i <= 1000000; i++){
+		
+		numberTen = i;
+		
+		numberTenReversed = 0;
+		
+
+		while(numberTen > 0){
+
+			k = numberTen%10;
+
+			numberTenReversed = 10*numberTenReversed + k;
+
+			numberTen /= 10;
+		}
+
+		
+
+		if(numberTenReversed == i) {
+
+			numberTenModified = i;
+			l = 0;
+			palind  = true;
+
+			
+			
+			do{
+
+				 r = numberTenModified % 2;            
+				 numberTenModified /= 2;        
+				 numberTwo[l] = char(int('0')+r); 
+				 numberTwoReversed[l] = char(int('0')+r);
+				 l++;
+
+			}while (numberTenModified > 0);                                              
+			   
+			
+			          
+			                                                 
+			for(int j = 0; j < (l/2); j++){ 
+
+				 int c = numberTwo[j];     
+				 numberTwo[j]= numberTwo[l-j-1];
+				 numberTwo[l-j-1]=c;
+
+			}
+			 
+			 numberTwo[l]='\0';
+
+			 for(int j = 0; j < l; j++){ 
+
+				 if(numberTwoReversed[j] != numberTwo[j]){
+					 palind = false;
+						break;
+				 }
+			 }
+
+			 if(palind == true) {
+				
+				 cout << i << " ";
+				 for(int j = 0; j < l; j++){
+					cout << numberTwo[j];
+				 }
+				 cout << endl;
+			 
+			 }
+
+		}
+	}
+
+
+  /*  int numberTen, numberTenModified, numberTenReversed, k, r, l, n;
+	string numberTwo = "", numberTwoReversed = "";
+
+
+	for (int i = 0; i <= 1000000; i++){
+		
+		numberTen = i;
+		
+		numberTenReversed = 0;
+		
+
+		while(numberTen > 0){
+
+			k = numberTen%10;
+
+			numberTenReversed = 10*numberTenReversed + k;
+
+			numberTen /= 10;
+		}
+
+		
+
+		if(numberTenReversed == i) {
+
+			numberTenModified = i;
+			l = 0;
+			palind  = true;
+			numberTwoReversed = "";
+			numberTwo = "";
+
+			
+			
+			do{
+
+				 r = numberTenModified % 2;            
+				 numberTenModified /= 2;        
+				 numberTwo += char(int('0')+r); 
+				 numberTwoReversed += char(int('0')+r);
+				 
+
+			}while (numberTenModified > 0);                                              
+			   
+			          
+			l =  numberTwo.length();
+
+			for(int j = 0; j < numberTwo.length()/2; j++){ 
+
+				 int c = numberTwo[j];     
+				 numberTwo[j]= numberTwo[l-j-1];
+				 numberTwo[l-j-1]=c;
+
+			}
+			 
+
+			 if(numberTwo.compare(numberTwoReversed) != 0){
+					 palind = false;
+				
+			 }
+			 
+
+			 if(palind == true) {
+				
+				 cout << i << " ";
+				 cout << numberTwo;
+				 cout << endl;
+			 
+			 }
+
+		}
+	}*/
+
+	return 0;
+
+}
