@@ -1,0 +1,176 @@
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+#include <cstdlib>
+
+using namespace std;
+
+template <typename T_Arr>
+bool compare(T_Arr a[], int fir, int sec){
+
+   return (a[fir] < a[sec]) ? true : false;
+}
+
+bool compare(char *a[], int fir, int sec){
+
+    return (strcmp(a[fir], a[sec]) < 0) ? true : false;
+}
+
+
+template <typename T_Arr>
+void printArray(T_Arr a[], int n){
+
+    for(int i = 0; i < n; i++){
+        cout<<a[i]<<" ";
+    }
+    cout<<endl;
+}
+
+void printArray(char *a[], int n){
+
+    for(int i = 0; i < n; i++){
+        cout<<a[i]<<" ";
+    }
+    cout<<endl;
+}
+
+template <typename T_Arr>
+void setArrayHand(T_Arr a[], int n){
+
+    for(int i  = 0; i < n; i++){
+        cin>>a[i];
+    }
+}
+
+void setArrayHand(char *a[], int n){
+
+    const int Size = 10000;
+    char b[Size];
+
+    for(int i  = 0; i < n; i++){
+        cin>>a[i];
+    }
+}
+
+
+template <typename T_Arr>
+void setArrayRand(T_Arr a[],int  n){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = rand()%10;
+    }
+}
+
+template <class T>
+void merge(T a[], long lb, long split, long ub) {
+
+  long pos1=lb;
+
+  long pos2=split+1;
+
+  long pos3=0;
+
+  T *temp = new T[ub-lb+1];
+
+  while (pos1 <= split && pos2 <= ub) {
+    if (compare(a, pos1, pos2))
+      temp[pos3++] = a[pos1++];
+    else
+      temp[pos3++] = a[pos2++];
+  }
+
+  while (pos2 <= ub)
+    temp[pos3++] = a[pos2++];
+  while (pos1 <= split)
+    temp[pos3++] = a[pos1++];
+
+  for (pos3 = 0; pos3 < ub-lb+1; pos3++)
+    a[lb+pos3] = temp[pos3];
+
+  //delete temp[ub-lb+1];
+}
+
+void merge(char *a[], long lb, long split, long ub) {
+
+  long pos1=lb;
+
+  long pos2=split+1;
+
+  long pos3=0;
+
+  char *temp[ub-lb+1];
+
+
+  while (pos1 <= split && pos2 <= ub) {
+    if (compare(a, pos1, pos2)){
+
+         temp[pos3++] = a[pos1++];
+    }
+
+    else{
+        temp[pos3++] = a[pos2++];
+    }
+
+  }
+
+
+  while (pos2 <= ub)
+    temp[pos3++] = a[pos2++];
+  while (pos1 <= split)
+    temp[pos3++] = a[pos1++];
+
+
+  for (pos3 = 0; pos3 < ub-lb+1; pos3++){
+    //cout<<temp[pos3]<<endl;
+    a[lb+pos3] = temp[pos3];
+  }
+
+  //delete temp[ub-lb+1];
+}
+
+template<class T>
+void mergeSort(T a[], long lb, long ub) {
+  long split;
+
+  if (lb < ub) {
+
+    split = (lb + ub)/2;
+
+
+
+    mergeSort(a, lb, split);
+    mergeSort(a, split+1, ub);
+    merge(a, lb, split, ub);
+  }
+}
+
+void mergeSort(char *a[], long lb, long ub) {
+  long split;
+
+  if (lb < ub) {
+
+    split = (lb + ub)/2;
+
+    mergeSort(a, lb, split);
+    mergeSort(a, split+1, ub);
+    merge(a, lb, split, ub);
+  }
+}
+
+int main() {
+
+    const int n = 20;
+    int a[n];
+
+   // char *a[] = {"prdtr", "xqrc", "uytre", "aaaa"};
+
+    setArrayRand(a, n);
+    printArray(a, n);
+
+    mergeSort(a, 0, n - 1);
+
+    printArray(a, n);
+
+
+    return 0;
+}
