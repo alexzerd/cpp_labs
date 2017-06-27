@@ -1,0 +1,32 @@
+#include <iostream>
+#include <climits>
+#include <cstdlib>
+
+using namespace std;
+
+void print(const unsigned char* data, size_t size)
+{
+    for(int i = 0; i < size; ++i)
+    {
+        unsigned char mask = 1 << (CHAR_BIT - 1);
+        while(mask)
+        {
+            cout << ((data[i] & mask) ? 1 : 0);
+            mask >>= 1;
+        }
+        cout << " ";
+    }
+}
+
+int main(int argc, char* argv[])
+{
+    int n = 5;
+
+    void *ch = &n;
+
+    print(reinterpret_cast<unsigned char*>(&ch), sizeof(ch));
+    cout << endl;
+     return 0;
+
+}
+
