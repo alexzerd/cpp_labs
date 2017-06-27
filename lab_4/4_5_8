@@ -1,0 +1,66 @@
+#include <iostream>
+
+
+using namespace std;
+
+char* strchr(char a[], char c){
+    int i = 0;
+    while(a[i] != '\0'){
+        if(a[i] == c) {cout<<i<<" "; return &a[i];}
+        else i++;
+    }
+    return NULL;
+}
+
+char* strrchr(char a[], char c){
+    int i = 0;
+    while(a[i] != '\0'){
+        i++;
+    }
+    for(int k = i; k >= 0; k--){
+        if(a[k] == c) {cout<<k<<" "; return &a[k];}
+    }
+    return NULL;
+}
+
+char* strpbrk(char a[], char b[]){
+    int i = 0, k = 0;
+    while(a[i] != '\0'){
+        while(b[k] != '\0'){
+            if(a[i] == b[k]) {cout<<i<<" "; return &a[i];}
+            else k++;
+        }
+        i++;
+        k = 0;
+    }
+    return NULL;
+}
+
+int strspn(char a[], char b[]){
+    int i = 0, k = 0, n = 0;
+    bool coherent = NULL, firstTime = false;
+    while(a[i] != '\0'){
+        while(b[k] != '\0'){
+            if(a[i] == b[k]) {coherent = true; n++; firstTime = true; break;}
+            else {k++; coherent = false;}
+        }
+        if(coherent == false && firstTime == true) return n;
+        i++;
+        k = 0;
+    }
+    return NULL;
+}
+
+
+int main()
+{
+
+    char a[11] = "Helicopter", b[9] = "Elevator";
+    char c = 'o', d = 'e';
+    cout<<*strchr(a, c)<<endl;
+    cout<<*strrchr(b, d)<<endl;
+    cout<<*strpbrk(a, b)<<endl;
+    cout<<strspn(a, b)<<endl;
+
+    return 0;
+}
