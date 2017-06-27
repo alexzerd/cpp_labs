@@ -1,0 +1,24 @@
+#include <iostream>
+#include "CList.h"
+
+using namespace std;
+
+int main()
+{
+
+    char a[10]={'r', 's', 'd', 'm', 'Q', 'W', 'E', 'R', '1', 'Y'},
+         b[10]={'z', 'J', 'm', 'r', 'p', 'd', 'E', '8', 'o', '9'};
+
+    CList <char> first(a, 10), second(b, 10), result('0');
+
+    first.printList();
+    second.printList();
+
+    result = first - second;
+
+    result.printList();
+
+
+
+    return 0;
+}
