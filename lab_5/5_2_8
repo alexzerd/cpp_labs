@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+const int n = 7;
+
+int& findMax(int a[]){
+	int numOfMax = 0;
+	int maxim = 0;
+	int counter = 0;
+	for (int i = 1; i < n;  i++){
+            if(a[numOfMax] > a[i]){numOfMax = numOfMax; maxim = a[numOfMax];}
+            else {numOfMax = i; maxim  = a[i];}
+
+    }
+    cout<<endl;
+    for (int i = 1; i < n;  i++){
+      if(a[i]==maxim) counter++;
+    }
+   if(counter > 1) return a[numOfMax - 1];
+	else return a[numOfMax];
+}
+
+
+void setArrayRand(int a[]){
+
+    for(int i  = 0; i < n; i++){
+        a[i] = rand()%10;
+    }
+}
+
+void printArray(int a[]){
+
+    for(int i = 0; i < n; i++){
+        cout<<a[i]<<endl;
+    }
+
+    cout<<endl;
+}
+
+template <typename T_Arr>
+void setArrayHand(T_Arr a[]){
+
+    for(int i  = 0; i < n; i++){
+        cin>>a[i];
+    }
+}
+
+int main ()
+{
+
+	int Arr[n]={0, 1, 2, 3, 9, 8, 9};
+
+
+	printArray(Arr);
+
+
+	cout << "Maximum = " << findMax(Arr);
+
+	findMax(Arr) = 0;
+
+	printArray(Arr);
+
+
+	return 0;
+
+}
+
+
+
