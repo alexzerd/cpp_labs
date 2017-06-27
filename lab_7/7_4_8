@@ -1,0 +1,160 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+struct Node
+{	int d;
+	Node *next;
+	Node *pred;
+};
+
+void find(Node *top, int key, Node *&pv, Node *&ppv)
+{
+	pv = top;
+    ppv = top;
+
+	while (pv && pv ->d != key )
+	{
+		ppv = pv;
+		pv = pv -> next;
+	}
+}
+
+
+void find(Node *top, int key, Node *&pv, Node *&ppv, char )
+{
+	pv = top;
+    ppv = top;
+
+	while (pv && pv ->d <= key )
+	{
+		ppv = pv;
+		pv = pv -> next;
+	}
+}
+
+
+void vyvod1(Node *top)
+{
+    while (top)
+	{
+		cout<<top ->d <<' ';
+		top = top -> next;
+	}
+	cout<<"\n";
+}
+
+void vyvod2(Node* end)
+{
+	while (end)
+	{
+		cout << end -> d <<' ';
+		end = end -> pred;
+	}
+	cout<<"\n";
+}
+
+void add(Node*&top, Node *&end, int key)
+{
+	Node *nv, *pv = NULL,*ppv = NULL;
+
+	nv = new Node;
+	nv -> d = key;
+	nv -> next = NULL;
+	nv -> pred = NULL;
+
+	if (!top)
+	{	top = nv;
+		end = nv;
+	}
+	else
+	{
+
+
+			nv -> next = top;
+			top -> pred = nv;
+			top = nv;
+	}
+}
+
+
+void del(Node *&top, Node *&end, int key)
+{
+	Node *pv, *ppv;
+
+	find(top, key, pv, ppv);
+	if (pv)
+	{
+		if (top ->d == key)
+		{
+			top = top -> next;
+			if (top)
+                top -> pred = NULL;
+			else
+                end = NULL;
+		}
+		else
+		{
+		         ppv -> next = pv -> next;
+			if (pv->next)
+         		pv -> next -> pred = ppv;
+			else
+                end = ppv;
+		}
+		delete pv;
+	}
+}
+
+void sum(Node *top, Node *end)
+{
+
+    int sumBack = 0;
+
+
+        while(end -> next != top)
+        {
+
+            sumBack += (end -> d)+(top -> d);
+            cout << (end -> d)+(top -> d)<<" ";
+
+            top = top -> next;
+            end = end -> pred;
+        }
+        cout<<endl;
+        cout<<endl;
+
+        cout<<sumBack;
+
+
+}
+
+
+
+int main()
+{
+    int n;
+
+    cout<<"Number n: ";
+    cin>> n;
+    Node *top = NULL, *end = NULL;
+
+
+	for (int i = 2*n; i > 0; i--)
+      add(top, end, rand()%10);
+
+
+    cout<<"List: "<<endl;
+    cout<<endl;
+	vyvod1(top);
+	//vyvod2(end);
+
+	cout<<endl;
+
+	sum(top, end);
+
+
+
+	return 0;
+}
+
+
